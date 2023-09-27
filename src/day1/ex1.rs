@@ -3,6 +3,10 @@ use crate::lines_for;
 type Calories = u32;
 
 pub fn solve() -> Calories {
+    find_max(lines_for("input_data/1").map(|l| l.unwrap()))
+}
+
+fn find_max(vals: impl IntoIterator<Item = String>) -> Calories {
     let mut is_skipping = true;
     let mut max = Calories::MIN;
     let mut lmax = Calories::MIN;
@@ -10,8 +14,7 @@ pub fn solve() -> Calories {
     fn parse(s: &str) -> Calories {
         s.parse::<Calories>().unwrap()
     }
-    for l in lines_for("input_data/1") {
-        let l = l.unwrap();
+    for l in vals {
         match (is_skipping, l.is_empty()) {
             (false, false) => lmax += parse(&l),
             (false, true) => {
