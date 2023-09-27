@@ -1,3 +1,3 @@
 fn main() {
-    aoc_lib::day1::ex1::solve().unwrap();
+    aoc_lib::day1::ex1::solve();
 }

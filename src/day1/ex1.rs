@@ -1,10 +1,8 @@
-use std::io;
-
 use crate::lines_for;
 
 type Calories = u32;
 
-pub fn solve() -> io::Result<Calories> {
+pub fn solve() -> Calories {
     let mut is_skipping = true;
     let mut max = Calories::MIN;
     let mut lmax = Calories::MIN;
@@ -27,7 +25,7 @@ pub fn solve() -> io::Result<Calories> {
             (true, true) => (),
         }
     }
-    Ok(lmax.max(max))
+    lmax.max(max)
 }
 
 #[cfg(test)]
@@ -36,6 +34,6 @@ mod tests {
 
     #[test]
     fn test_it() {
-        assert_eq!(66306, solve().unwrap());
+        assert_eq!(66306, solve());
     }
 }
