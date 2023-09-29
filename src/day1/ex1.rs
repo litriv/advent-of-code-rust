@@ -3,7 +3,7 @@ use crate::lines_for;
 type Calories = u32;
 
 pub fn solve() -> Calories {
-    find_max(lines_for("input_data/1").map(|l| l.unwrap()))
+    find_max(lines_for("input_data/1"))
 }
 
 fn find_max(vals: impl IntoIterator<Item = String>) -> Calories {
