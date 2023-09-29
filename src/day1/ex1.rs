@@ -22,7 +22,7 @@ fn find_max(vals: impl IntoIterator<Item = String>) -> Calories {
                 is_skipping = true;
             }
             (true, false) => {
-                lmax = parse(&l).max(Calories::MIN);
+                lmax = parse(&l);
                 is_skipping = false;
             }
             (true, true) => (),

@@ -25,7 +25,7 @@ pub fn solve() -> io::Result<Calories> {
                 is_skipping = true;
             }
             (true, false) => {
-                lmax = parse(&l).max(Calories::MIN);
+                lmax = parse(&l);
                 is_skipping = false;
             }
             (true, true) => (),
