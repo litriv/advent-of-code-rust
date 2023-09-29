@@ -1,6 +1,10 @@
 type Priority = u8;
 type PrioritySum = i32;
 
+fn solve() -> PrioritySum {
+    1000
+}
+
 #[cfg(test)]
 mod tests {
 
