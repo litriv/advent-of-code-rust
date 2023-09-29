@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::lines_for;
 
 type Priority = u8;
@@ -14,6 +16,11 @@ fn priority_sum(vals: impl IntoIterator<Item = String>) -> PrioritySum {
 }
 
 fn priority(l: String) -> Priority {
+    let bs = l.as_bytes();
+    let len = bs.len();
+    if len % 2 != 0 {
+        panic!("expected length to be even: {}", l);
+    }
     10
 }
 
