@@ -7,9 +7,10 @@ fn solve() -> PrioritySum {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
 
     #[test]
     fn test_it() {
-        assert!(false);
+        assert_eq!(10, solve());
     }
 }
