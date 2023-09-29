@@ -14,6 +14,7 @@ fn find_max(vals: impl IntoIterator<Item = String>) -> Calories {
     fn parse(s: &str) -> Calories {
         s.parse::<Calories>().unwrap()
     }
+
     for l in vals {
         match (is_skipping, l.is_empty()) {
             (false, false) => lmax += parse(&l),

@@ -1,29 +1,21 @@
-use std::{
-    fs::File,
-    io::{BufRead, BufReader},
-};
+use crate::lines_for;
 
-use super::{outcome::Outcome, shape::Shape, Score};
+use super::{outcome::Outcome, shape::Shape, MyShape, Round, Score};
 
-struct Round {
-    opponent: Shape,
-    me: Shape,
-}
-impl Round {
-    fn new(opponent: char, me: char) -> Self {
-        Round {
-            opponent: Shape::from(opponent),
-            me: Shape::from(me),
+impl From<char> for MyShape {
+    fn from(value: char) -> Self {
+        match value {
+            'X' => Self(Shape::Rock),
+            'Y' => Self(Shape::Paper),
+            'Z' => Self(Shape::Scissors),
+            _ => panic!("invalid value: {}", value),
         }
     }
-    fn is_win(&self) -> bool {
-        self.me.does_beat(&self.opponent)
-    }
-    fn is_draw(&self) -> bool {
-        self.me == self.opponent
-    }
-    fn score(&self) -> Score {
-        Outcome::from(self).score() + self.me.score()
+}
+
+impl From<String> for Round {
+    fn from(l: String) -> Self {
+        Round::new(l.as_bytes()[0] as char, l.as_bytes()[2] as char)
     }
 }
 impl From<&Round> for Outcome {
@@ -38,28 +30,14 @@ impl From<&Round> for Outcome {
     }
 }
 
-impl From<char> for Shape {
-    fn from(value: char) -> Self {
-        match value {
-            'A' | 'X' => Self::Rock,
-            'B' | 'Y' => Self::Paper,
-            'C' | 'Z' => Self::Scissors,
-            _ => panic!("bad input: {}", value),
-        }
-    }
+pub fn solve() -> Score {
+    calc_score(lines_for("input_data/2"))
 }
 
-pub fn solve() -> Score {
-    let f = File::open("input_data/2").unwrap();
-    let r = BufReader::new(f);
-    let mut score: Score = 0;
-
-    for l in r.lines() {
-        let l = l.unwrap();
-        let r = Round::new(l.as_bytes()[0] as char, l.as_bytes()[2] as char);
-        score += r.score();
-    }
-    score
+fn calc_score(vals: impl IntoIterator<Item = String>) -> Score {
+    vals.into_iter()
+        .map(|l| <String as Into<Round>>::into(l).score())
+        .sum()
 }
 
 #[cfg(test)]
@@ -77,9 +55,9 @@ mod tests {
     #[test]
     fn test_draw() {
         // opponent, me
-        assert!(Round::new('A', 'A').is_draw());
-        assert!(Round::new('B', 'B').is_draw());
-        assert!(Round::new('C', 'C').is_draw());
+        assert!(Round::new('A', 'X').is_draw());
+        assert!(Round::new('B', 'Y').is_draw());
+        assert!(Round::new('C', 'Z').is_draw());
     }
 
     #[test]

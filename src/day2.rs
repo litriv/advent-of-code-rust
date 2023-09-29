@@ -1,12 +1,25 @@
+use self::{outcome::Outcome, shape::Shape};
+
 pub mod ex1;
 pub mod ex2;
 
 type Score = u16;
 
+impl From<char> for OpponentShape {
+    fn from(value: char) -> Self {
+        match value {
+            'A' => Self(Shape::Rock),
+            'B' => Self(Shape::Paper),
+            'C' => Self(Shape::Scissors),
+            _ => panic!("invalid value: {}", value),
+        }
+    }
+}
+
 mod shape {
     type ShapeWeight = u8;
 
-    #[derive(PartialEq, Eq)]
+    #[derive(Copy, Clone, PartialEq, Eq)]
     pub enum Shape {
         Rock,
         Paper,
@@ -65,5 +78,36 @@ mod outcome {
                 Self::ILost => 0,
             }
         }
+    }
+}
+
+#[derive(Clone, Copy)]
+struct MyShape(Shape);
+#[derive(Clone, Copy)]
+struct OpponentShape(Shape);
+
+struct Round {
+    opponent: OpponentShape,
+    me: MyShape,
+}
+impl Round {
+    fn new<T, U>(opponent: T, me: U) -> Self
+    where
+        T: Into<OpponentShape>,
+        U: Into<MyShape>,
+    {
+        Self {
+            opponent: opponent.into(),
+            me: me.into(),
+        }
+    }
+    fn is_win(&self) -> bool {
+        self.me.0.does_beat(&self.opponent.0)
+    }
+    fn is_draw(&self) -> bool {
+        self.me.0 == self.opponent.0
+    }
+    fn score(&self) -> Score {
+        Outcome::from(self).score() + self.me.0.score()
     }
 }

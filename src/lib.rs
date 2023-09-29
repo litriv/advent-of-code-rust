@@ -5,6 +5,7 @@ use std::{
 
 pub mod day1;
 pub mod day2;
+pub mod day3;
 
 fn lines_for(s: &str) -> impl IntoIterator<Item = String> {
     let f = File::open(s).unwrap();
